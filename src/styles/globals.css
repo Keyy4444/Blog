@@ -4,7 +4,13 @@
 
 @layer base {
   .container {
-    @apply max-w-[1536px] xl:max-w-[1248px] lg:max-w-[920px] md:max-w-[768px] sm:max-w-[480px];
+    @apply flex flex-col mx-auto pr-[64px] pl-[64px] max-w-[1536px];
+  }
+
+  @screen 2xl {
+    .container {
+      @apply max-w-[1240px];
+    }
   }
 }
 
