@@ -22,6 +22,7 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        biege: "rgb(235, 230, 224)",
       },
     },
   },

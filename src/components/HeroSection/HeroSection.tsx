@@ -3,7 +3,7 @@ import React from "react";
 export default function HeroSection() {
   return (
     <section
-      className={"pt-[100px] min-h-96 flex flex-col justify-center"}
+      className={"pt-[80px] min-h-96 flex flex-col justify-center"}
       style={{
         background:
           "linear-gradient(270deg, rgba(239, 234, 229, 1), rgba(218, 238, 235, 1))",
