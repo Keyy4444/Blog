@@ -1,6 +1,6 @@
 import { BlogPost } from "@/types/posts";
 import { createPost, updatePost } from "@/api/postService";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AxiosError } from "axios";
 import QuillEditor from "../QuillEditor/QuillEditor";
 
@@ -71,10 +71,6 @@ export default function NewPostModal({
       }
     }
   };
-
-  useEffect(() => {
-    console.log({ ...data, content });
-  }, [data, content]);
 
   return (
     <div className="absolute top-0 left-0 h-screen w-screen flex items-center justify-center z-50">
