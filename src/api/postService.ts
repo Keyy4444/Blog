@@ -1,6 +1,8 @@
 import { BlogPost } from "@/types/posts";
 import axiosInstance from "./axiosConfig";
 
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
 export const fetchPaginatedPosts = async (
   page: number = 1,
   limit: number = 9
@@ -14,9 +16,36 @@ export const fetchPaginatedPosts = async (
   return response.data;
 };
 
+// export const fetchAllPosts = async () => {
+//   // const response = await axiosInstance.get("/posts");
+//   // return response.data;
+//   const response = await fetch(`${baseURL}/posts`, {
+//     next: {
+//       tags: ["posts"],
+//     },
+//   });
+
+//   console.log(response);
+// };
+
+// export const fetchAllPosts = async () => {
+//   const response = await fetch(`${baseURL}/posts`, {
+//     next: {
+//       tags: ["posts"],
+//     },
+//   });
+//   return response.json();
+// };
+
 export const fetchAllPosts = async () => {
-  const response = await axiosInstance.get(`/posts?ts=${Date.now()}`);
-  return response.data;
+  const response = await fetch(`${baseURL}/posts`, {
+    next: {
+      tags: ["posts"],
+    },
+  });
+
+  const data = await response.json();
+  return data;
 };
 
 export const searchPostsByTitle = async (
