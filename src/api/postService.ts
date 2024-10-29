@@ -1,14 +1,20 @@
 import { BlogPost } from "@/types/posts";
 import axiosInstance from "./axiosConfig";
 
-export const fetchPosts = async () => {
-  const response = await axiosInstance.get("/posts");
+export const fetchPosts = async (page: number = 1, limit: number = 9) => {
+  const response = await axiosInstance.get(
+    `/posts?page=${page}&limit=${limit}`
+  );
   return response.data;
 };
 
-export const searchPostsByTitle = async (title: string) => {
+export const searchPostsByTitle = async (
+  title: string,
+  page: number = 1,
+  limit: number = 9
+) => {
   const response = await axiosInstance.get("/posts/search", {
-    params: { title },
+    params: { title, page, limit },
   });
   return response.data;
 };

@@ -11,26 +11,30 @@ import cn from "classnames";
 import spin from "../../../public/icons/spin.svg";
 import SearchBar from "../SearchBar/SearchBar";
 import useFreezeBackground from "@/hooks/useFreezeBackground";
+import ReactPaginate from "react-paginate";
+import "../../styles/pagination.css";
 
 interface BlogProps {
   initialPosts: BlogPost[];
+  totalPages: number;
 }
 
-export default function Blog({ initialPosts }: BlogProps) {
+export default function Blog({ initialPosts, totalPages }: BlogProps) {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
   const [searchQuery, setSearchQuery] = useState("");
+  const [numberOfPages, setNumberOfPages] = useState(totalPages);
 
   // freezes background when modal is open
   useFreezeBackground(showModal);
 
   // refreshes posts when a new post is submitted
-  const fetchPostsData = async () => {
+  const fetchPostsData = async (page: number) => {
     setIsLoading(true);
     try {
-      const postsData = await fetchPosts();
-      setPosts(postsData.reverse());
+      const postsData = await fetchPosts(page, 9);
+      setPosts(postsData.posts);
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -39,12 +43,13 @@ export default function Blog({ initialPosts }: BlogProps) {
   };
 
   useEffect(() => {
-    const fetchSearchResults = async () => {
+    const fetchSearchResults = async (page: number = 1) => {
       if (searchQuery) {
         setIsLoading(true);
         try {
-          const searchResults = await searchPostsByTitle(searchQuery);
-          setPosts(searchResults.reverse());
+          const searchResults = await searchPostsByTitle(searchQuery, page, 9);
+          setPosts(searchResults.posts);
+          setNumberOfPages(searchResults.totalPages);
         } catch (error) {
           console.error("Error searching posts:", error);
         } finally {
@@ -60,6 +65,11 @@ export default function Blog({ initialPosts }: BlogProps) {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handlePageClick = (data: { selected: number }) => {
+    const selectedPage = data.selected + 1;
+    fetchPostsData(selectedPage);
   };
 
   return (
@@ -107,6 +117,23 @@ export default function Blog({ initialPosts }: BlogProps) {
             />
           )}
         </div>
+        {numberOfPages > 1 && (
+          <div>
+            <ReactPaginate
+              className="flex flex-row justify-self-center list-none gap-4 items-center"
+              pageClassName="page"
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={1}
+              pageCount={numberOfPages}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              // forcePage={currentPage - 1}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
