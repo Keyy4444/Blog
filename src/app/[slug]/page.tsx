@@ -1,4 +1,4 @@
-import { fetchPostBySlug, fetchPosts } from "@/api/postService";
+import { fetchAllPosts, fetchPostBySlug } from "@/api/postService";
 import React from "react";
 import { BlogPost } from "@/types/posts";
 import { notFound } from "next/navigation";
@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const posts: BlogPost[] = await fetchPosts();
+  const posts: BlogPost[] = await fetchAllPosts();
 
   return posts
     .map((post) => (post.slug ? { slug: post.slug } : null))

@@ -1,8 +1,16 @@
-import QuillEditor from "@/components/QuillEditor/QuillEditor";
 import { BlogPost } from "@/types/posts";
 import { createPost, updatePost } from "@/api/postService";
 import React, { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+
+import dynamic from "next/dynamic";
+
+const QuillEditor = dynamic(
+  () => import("@/components/QuillEditor/QuillEditor"),
+  {
+    ssr: false,
+  }
+);
 
 interface NewPostModalProps {
   onClose: () => void;

@@ -1,10 +1,18 @@
 import { BlogPost } from "@/types/posts";
 import axiosInstance from "./axiosConfig";
 
-export const fetchPosts = async (page: number = 1, limit: number = 9) => {
+export const fetchPaginatedPosts = async (
+  page: number = 1,
+  limit: number = 9
+) => {
   const response = await axiosInstance.get(
-    `/posts?page=${page}&limit=${limit}`
+    `/posts/pagination?page=${page}&limit=${limit}`
   );
+  return response.data;
+};
+
+export const fetchAllPosts = async () => {
+  const response = await axiosInstance.get("/posts");
   return response.data;
 };
 

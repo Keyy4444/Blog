@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ArticleCard from "../ArticleCard/ArticleCard";
-import { fetchPosts, searchPostsByTitle } from "../../api/postService";
+import { fetchPaginatedPosts, searchPostsByTitle } from "../../api/postService";
 import { BlogPost } from "@/types/posts";
 import { createPortal } from "react-dom";
 import NewPostModal from "../NewPostModal/NewPostModal";
@@ -33,7 +33,7 @@ export default function Blog({ initialPosts, totalPages }: BlogProps) {
   const fetchPostsData = async (page: number) => {
     setIsLoading(true);
     try {
-      const postsData = await fetchPosts(page, 9);
+      const postsData = await fetchPaginatedPosts(page, 9);
       setPosts(postsData.posts);
     } catch (error) {
       console.error("Error fetching posts:", error);
