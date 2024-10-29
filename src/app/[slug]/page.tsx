@@ -69,4 +69,4 @@ export default async function Page({ params }: PageProps) {
   }
 }
 
-// export const revalidate = 60;
+export const revalidate = 60;
