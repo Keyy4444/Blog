@@ -41,8 +41,14 @@ export const searchPostsByTitle = async (
 };
 
 export const fetchPostBySlug = async (slug: string): Promise<BlogPost> => {
-  const response = await axiosInstance.get(`/posts/slug/${slug}`);
-  return response.data;
+  const response = await fetch(`${baseURL}/posts/slug/${slug}`, {
+    cache: "no-store",
+  });
+
+  console.log(response);
+
+  const data = await response.json();
+  return data;
 };
 
 export const fetchPostById = async (id: string): Promise<BlogPost> => {
