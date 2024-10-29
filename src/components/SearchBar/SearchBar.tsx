@@ -4,7 +4,15 @@ import zoom from "../../../public/icons/zoom.svg";
 import Image from "next/image";
 import useClickOutside from "@/hooks/useClickOutside";
 
-export default function SearchBar() {
+interface searchBarProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+}
+
+export default function SearchBar({
+  searchQuery,
+  setSearchQuery,
+}: searchBarProps) {
   const [isActive, setIsActive] = useState(false);
   const searchBarRef = useRef(null);
 
@@ -14,9 +22,9 @@ export default function SearchBar() {
     <div
       ref={searchBarRef}
       className={cn(
-        "flex flex-row gap-2 border-[1px] border-black rounded-3xl px-2.5 py-1.5 w-40 transition-all text-black",
+        "flex flex-row gap-2 border-[1px] border-black rounded-3xl px-2.5 py-1.5 w-1/5 transition-all duration-500 text-black lg:w-full",
         {
-          "bg-gray-200 w-96": isActive,
+          "w-1/2 lg:w-full": isActive,
         }
       )}
     >
@@ -24,15 +32,11 @@ export default function SearchBar() {
         <Image src={zoom} alt="Search icon" fill />
       </div>
       <input
-        className={cn("w-full bg-inherit text-black focus-visible:outline-0", {
-          //   "bg-slate-400": isActive,
-        })}
-        // id={id}
-        // maxLength={length}
-        placeholder={!isActive ? "Search" : ""}
+        className="w-full bg-inherit text-black focus-visible:outline-0"
+        placeholder={!isActive ? "Search by title" : ""}
         onClick={() => setIsActive(true)}
-        // value={value}
-        // onChange={(e) => onChange(e.target.value)}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
     </div>
   );
