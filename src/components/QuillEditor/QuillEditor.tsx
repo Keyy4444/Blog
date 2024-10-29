@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import Quill from "quill";
+import React, { useEffect } from "react";
 import "quill/dist/quill.snow.css";
+import { useQuill } from "react-quilljs";
 
 interface QuillEditorProps {
   value: string;
@@ -8,51 +8,63 @@ interface QuillEditorProps {
 }
 
 const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
-  const editorRef = useRef<HTMLDivElement | null>(null);
-  const quillInstanceRef = useRef<Quill | null>(null);
-  const [editorIsReady, setEditorIsReady] = useState(false);
-
-  console.log(value);
-
-  useEffect(() => {
-    if (editorRef.current && !quillInstanceRef.current) {
-      const toolbarOptions = [
+  const { quill, quillRef } = useQuill({
+    modules: {
+      toolbar: [
         ["bold", "italic", "underline", "strike"],
         [{ header: 1 }, { header: 2 }],
         [{ list: "bullet" }],
-      ];
-
-      quillInstanceRef.current = new Quill(editorRef.current, {
-        theme: "snow",
-        modules: { toolbar: toolbarOptions },
-      });
-
-      // Initialize editor with initial value
-      quillInstanceRef.current.root.innerHTML = value;
-
-      // Listen for text changes
-      quillInstanceRef.current.on("text-change", () => {
-        const content = quillInstanceRef.current?.root.innerHTML;
-        onChange(content || "");
-      });
-      setEditorIsReady(true);
-    }
-
-    return () => {
-      quillInstanceRef.current = null;
-    };
-  }, []); // Initial mount only
+      ],
+    },
+    formats: [
+      "size",
+      "bold",
+      "italic",
+      "underline",
+      "strike",
+      "header",
+      "list",
+    ],
+  });
 
   useEffect(() => {
-    if (
-      quillInstanceRef.current &&
-      quillInstanceRef.current.root.innerHTML !== value
-    ) {
-      quillInstanceRef.current.root.innerHTML = value; // Update editor when `value` changes
+    if (quill && value !== quill.root.innerHTML) {
+      quill.root.innerHTML = value;
     }
-  }, [value, editorIsReady]); // Sync external `value` changes
+  }, [quill, value]);
 
-  return <div ref={editorRef} style={{ height: "300px" }} />;
+  useEffect(() => {
+    if (quill) {
+      const handleChange = () => {
+        const content = quill.root.innerHTML;
+        onChange(content);
+      };
+
+      quill.on("text-change", handleChange);
+
+      return () => {
+        quill.off("text-change", handleChange);
+      };
+    }
+  }, [quill, onChange]);
+
+  return (
+    <div style={{ width: 500, height: 300 }}>
+      <div ref={quillRef} style={{ height: "100%" }} />
+      <div id="toolbar">
+        <button className="ql-bold" />
+        <button className="ql-italic" />
+        <button className="ql-underline" />
+        <button className="ql-strike" />
+        <select className="ql-header" defaultValue="">
+          <option value="" />
+          <option value="1">Heading 1</option>
+          <option value="2">Heading 2</option>
+        </select>
+        <button className="ql-list" value="bullet" />
+      </div>
+    </div>
+  );
 };
 
 export default QuillEditor;
