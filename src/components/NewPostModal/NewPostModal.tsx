@@ -69,7 +69,7 @@ export default function NewPostModal({
     <div className="absolute top-0 left-0 h-screen w-screen flex items-center justify-center z-50">
       {/* Overlay */}
       <div
-        className="fixed top-0 left-0 h-full w-full bg-black opacity-50 z-40"
+        className="fixed top-0 left-0 h-full w-full bg-black opacity-30 z-40"
         onClick={onClose}
       ></div>
 
