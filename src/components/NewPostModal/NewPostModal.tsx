@@ -83,7 +83,10 @@ export default function NewPostModal({
       <div className="h-fit max-h-[90vh] w-3/4 fixed top-12 left-[12.5%] bg-white border-[2px] border-orange-800 rounded-md z-50 overflow-y-auto md:w-[90%] md:left-[5%]">
         <div className="p-10 flex flex-col gap-2 items-center overflow-y-auto">
           <div>{initialPost ? "Update Post" : "Create a New Post"}</div>
-          <form onSubmit={handleSubmit} className="w-full max-w-lg">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col w-full max-w-lg"
+          >
             <div className="flex flex-col mb-4">
               <div className="flex flex-col gap-2">
                 <label className="mb-2 font-semibold">Title</label>
@@ -115,7 +118,9 @@ export default function NewPostModal({
                 required
               />
             </div>
-            <QuillEditor value={content} onChange={handleContentChange} />
+            <div className="mb-4">
+              <QuillEditor value={content} onChange={handleContentChange} />
+            </div>
             <div className="flex flex-col mb-4">
               <label className="mb-2 font-semibold">Banner Image URL</label>
               <input

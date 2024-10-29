@@ -29,7 +29,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
 
   useEffect(() => {
     if (quill && value !== quill.root.innerHTML) {
-      quill.root.innerHTML = value;
+      quill.clipboard.dangerouslyPasteHTML(value);
     }
   }, [quill, value]);
 
@@ -49,18 +49,18 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
   }, [quill, onChange]);
 
   return (
-    <div style={{ width: 500, height: 300 }}>
-      <div ref={quillRef} style={{ height: "100%" }} />
+    <div style={{ height: 300 }}>
+      <div ref={quillRef} style={{ height: "250px" }} />
       <div id="toolbar">
         <button className="ql-bold" />
         <button className="ql-italic" />
         <button className="ql-underline" />
         <button className="ql-strike" />
-        <select className="ql-header" defaultValue="">
+        {/* <select className="ql-header" defaultValue="">
           <option value="" />
           <option value="1">Heading 1</option>
           <option value="2">Heading 2</option>
-        </select>
+        </select> */}
         <button className="ql-list" value="bullet" />
       </div>
     </div>
