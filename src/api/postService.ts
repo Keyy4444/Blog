@@ -7,21 +7,22 @@ export const fetchPaginatedPosts = async (
   page: number = 1,
   limit: number = 9
 ) => {
-  const response = await axiosInstance.get(
-    `/posts/pagination?page=${page}&limit=${limit}`,
+  const response = await fetch(
+    `${baseURL}/posts/pagination?page=${page}&limit=${limit}`,
     {
-      headers: { "Cache-Control": "no-cache" },
+      cache: "no-store",
     }
   );
-  return response.data;
+  const data = await response.json();
+  return data;
 };
 
 export const fetchAllPosts = async () => {
   const response = await fetch(`${baseURL}/posts`, {
-    next: {
-      tags: ["posts"],
-    },
-    // cache: "no-store",
+    // next: {
+    //   tags: ["posts"],
+    // },
+    cache: "no-store",
   });
 
   const data = await response.json();
