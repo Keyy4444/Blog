@@ -39,9 +39,10 @@ export const fetchPaginatedPosts = async (
 
 export const fetchAllPosts = async () => {
   const response = await fetch(`${baseURL}/posts`, {
-    next: {
-      tags: ["posts"],
-    },
+    // next: {
+    //   tags: ["posts"],
+    // },
+    cache: "no-store",
   });
 
   const data = await response.json();
