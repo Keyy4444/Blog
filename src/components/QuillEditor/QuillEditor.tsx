@@ -39,7 +39,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
     return () => {
       quillInstanceRef.current = null;
     };
-  }, []); // Initial mount only
+  }, [value]); // Initial mount only
 
   useEffect(() => {
     if (
