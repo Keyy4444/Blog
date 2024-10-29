@@ -16,33 +16,12 @@ export const fetchPaginatedPosts = async (
   return response.data;
 };
 
-// export const fetchAllPosts = async () => {
-//   // const response = await axiosInstance.get("/posts");
-//   // return response.data;
-//   const response = await fetch(`${baseURL}/posts`, {
-//     next: {
-//       tags: ["posts"],
-//     },
-//   });
-
-//   console.log(response);
-// };
-
-// export const fetchAllPosts = async () => {
-//   const response = await fetch(`${baseURL}/posts`, {
-//     next: {
-//       tags: ["posts"],
-//     },
-//   });
-//   return response.json();
-// };
-
 export const fetchAllPosts = async () => {
   const response = await fetch(`${baseURL}/posts`, {
-    // next: {
-    //   tags: ["posts"],
-    // },
-    cache: "no-store",
+    next: {
+      tags: ["posts"],
+    },
+    // cache: "no-store",
   });
 
   const data = await response.json();
