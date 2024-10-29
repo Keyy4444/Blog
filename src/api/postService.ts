@@ -6,7 +6,10 @@ export const fetchPaginatedPosts = async (
   limit: number = 9
 ) => {
   const response = await axiosInstance.get(
-    `/posts/pagination?page=${page}&limit=${limit}&ts=${Date.now()}`
+    `/posts/pagination?page=${page}&limit=${limit}`,
+    {
+      headers: { "Cache-Control": "no-cache" },
+    }
   );
   return response.data;
 };
