@@ -11,6 +11,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillInstanceRef = useRef<Quill | null>(null);
 
+  console.log(value);
+
   useEffect(() => {
     if (editorRef.current && !quillInstanceRef.current) {
       const toolbarOptions = [
