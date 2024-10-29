@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
@@ -10,6 +10,7 @@ interface QuillEditorProps {
 const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillInstanceRef = useRef<Quill | null>(null);
+  const [editorIsReady, setEditorIsReady] = useState(false);
 
   console.log(value);
 
@@ -34,12 +35,13 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
         const content = quillInstanceRef.current?.root.innerHTML;
         onChange(content || "");
       });
+      setEditorIsReady(true);
     }
 
     return () => {
       quillInstanceRef.current = null;
     };
-  }, [value]); // Initial mount only
+  }, []); // Initial mount only
 
   useEffect(() => {
     if (
@@ -48,7 +50,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
     ) {
       quillInstanceRef.current.root.innerHTML = value; // Update editor when `value` changes
     }
-  }, [value]); // Sync external `value` changes
+  }, [value, editorIsReady]); // Sync external `value` changes
 
   return <div ref={editorRef} style={{ height: "300px" }} />;
 };
