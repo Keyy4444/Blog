@@ -14,7 +14,7 @@ const QuillEditor = dynamic(
 
 interface NewPostModalProps {
   onClose: () => void;
-  refreshPosts: (page: number) => Promise<void>;
+  refreshPosts?: (page: number) => Promise<void>;
   initialPost?: BlogPost;
 }
 
@@ -57,7 +57,9 @@ export default function NewPostModal({
         await createPost(postData);
         console.log("Post created successfully");
       }
-      refreshPosts(1);
+      if (refreshPosts) {
+        refreshPosts(1);
+      }
       onClose();
     } catch (error) {
       const axiosError = error as AxiosError;

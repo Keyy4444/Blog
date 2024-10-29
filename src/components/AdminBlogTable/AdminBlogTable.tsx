@@ -102,7 +102,7 @@ export default function AdminBlogTable({ initialPosts }: AdminBlogTableProps) {
         createPortal(
           <NewPostModal
             onClose={() => handleCloseModal()}
-            refreshPosts={handleCloseModal}
+            // refreshPosts={handleCloseModal}
             initialPost={selectedPost}
           />,
           document.body
