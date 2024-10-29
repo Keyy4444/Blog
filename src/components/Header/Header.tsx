@@ -14,11 +14,14 @@ export default function Header() {
       )}
     >
       <div className="container h-[80px] max-w-screen-2xl flex flex-row justify-between items-center">
-        <div className="flex flex-row gap-5 items-center justify-center">
+        <nav className="flex flex-row gap-5 items-center justify-center">
           <Link href="/" className="text-lg font-semibold">
             Home
           </Link>
-        </div>
+          <Link href="/admin/" className="text-lg font-semibold">
+            Admin
+          </Link>
+        </nav>
       </div>
     </header>
   );
