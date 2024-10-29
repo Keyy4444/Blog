@@ -15,7 +15,7 @@ export const fetchPaginatedPosts = async (
 };
 
 export const fetchAllPosts = async () => {
-  const response = await axiosInstance.get("/posts");
+  const response = await axiosInstance.get(`/posts?ts=${Date.now()}`);
   return response.data;
 };
 
