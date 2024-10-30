@@ -21,6 +21,8 @@ pnpm dev
 bun dev
 ```
 
+You will need .env environment variables. For access you can contact me.
+
 ## To stay in touch
 
 - Author - Oleksii Prokopchenko
