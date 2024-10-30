@@ -3,15 +3,7 @@ import { createPost, updatePost } from "@/api/postService";
 import React, { useState } from "react";
 import { AxiosError } from "axios";
 import QuillEditor from "../QuillEditor/QuillEditor";
-
-// import dynamic from "next/dynamic";
-
-// const QuillEditor = dynamic(
-//   () => import("@/components/QuillEditor/QuillEditor"),
-//   {
-//     ssr: false,
-//   }
-// );
+import { useRouter } from "next/navigation";
 
 interface NewPostModalProps {
   onClose: () => void;
@@ -34,6 +26,7 @@ export default function NewPostModal({
 
   const [content, setContent] = useState<string>(initialPost?.content || "");
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleContentChange = (value: string) => {
     setContent(value);
@@ -49,18 +42,28 @@ export default function NewPostModal({
     e.preventDefault();
     try {
       const postData = { ...data, content };
+
       if (initialPost && initialPost._id) {
         // If updating an existing post
-        await updatePost(initialPost._id, postData);
-        console.log("Post updated successfully");
+        const response = await updatePost(initialPost._id, postData);
+
+        if (
+          response.status === 200 &&
+          initialPost.title !== response.data.title
+        ) {
+          console.log("Post updated successfully");
+          router.push(`/${response.data.slug}`);
+        }
       } else {
         // If creating a new post
         await createPost(postData);
         console.log("Post created successfully");
       }
+
       if (refreshPosts) {
         refreshPosts(1);
       }
+
       onClose();
     } catch (error) {
       const axiosError = error as AxiosError;

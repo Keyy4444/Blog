@@ -1,5 +1,6 @@
 import { BlogPost } from "@/types/posts";
 import axiosInstance from "./axiosConfig";
+import { revalidatePost } from "@/api/revalidatePost";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -57,7 +58,12 @@ export const createPost = async (post: BlogPost) => {
 
 export const updatePost = async (id: string, post: BlogPost) => {
   const response = await axiosInstance.put(`/posts/${id}`, post);
-  return response.data;
+
+  if (response.status === 200 && response.data.slug) {
+    revalidatePost(response.data.slug);
+  }
+
+  return response;
 };
 
 export const deletePost = async (id: string): Promise<number> => {
