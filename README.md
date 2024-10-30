@@ -21,7 +21,7 @@ pnpm dev
 bun dev
 ```
 
-## Stay in touch
+## To stay in touch
 
 - Author - Oleksii Prokopchenko
 - Email - oleksprokopchenko@gmail.com
